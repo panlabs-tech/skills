@@ -1,23 +1,10 @@
 name: open-pr
-on: workflow_dispatch
+on: [workflow_dispatch]
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 jobs:
-  open:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - name: create branch, commit and PR as bot
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b test/bot-pr-$GITHUB_RUN_ID
-          echo "run $GITHUB_RUN_ID" > .bot-test
-          git add .bot-test
-          git commit -m "test: commit local nao assinado feito pelo bot"
-          git push origin HEAD
-          gh pr create --base main --head test/bot-pr-$GITHUB_RUN_ID \
-            --title "test: PR aberto pelo github-actions[bot]" --body "research #64"
+      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - run: echo ok
